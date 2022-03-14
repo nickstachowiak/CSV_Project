@@ -13,7 +13,7 @@ header_row = next(csv_file)
 print(type(header_row))
 
 for index, column_header in enumerate(header_row):
-    print("Index:", index, "Column Name:", column_header)
+    print(index, column_header)
 
 
 #test_date = datetime.strptime('2018-07-01', "%Y-%m-%d")

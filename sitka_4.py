@@ -6,13 +6,15 @@
 from datetime import datetime
 import csv
 
-open_file = open("sitka_weather_2018_simple.csv", "r")
+open_file = open("death_valley_2018_simple.csv", "r")
 
 csv_file = csv.reader(open_file, delimiter=",")
 
 header_row = next(csv_file)
 
-print(type(header_row))
+#print(header_row)
+
+
 
 for index, column_header in enumerate(header_row):
     print(index, column_header)
@@ -22,15 +24,27 @@ for index, column_header in enumerate(header_row):
 #print(test_date)
 
 
+
 highs = []
 dates = []
 lows = []
 
 for i in csv_file:
-    highs.append(int(i[5]))
-    current_date = datetime.strptime(i[2], "%Y-%m-%d")
-    dates.append(current_date)
-    lows.append(int(i[6]))
+
+    try:
+        current_date = datetime.strptime(i[2], "%Y-%m-%d")
+        high = int(i[4])
+        low = int(i[5])
+        
+
+    except ValueError:
+        print(f'Missing data for {current_date}')
+
+    else:
+        highs.append(high)
+        lows.append(low)
+        dates.append(current_date)
+        
 
 print(highs)
 print(dates)
@@ -50,17 +64,5 @@ plt.ylabel("Temperatures (F)", fontsize=16)
 plt.tick_params(axis="both", labelsize=16)
 
 fig.autofmt_xdate()
-
-#plt.show()
-
-plt.subplot(2, 1, 1)
-plt.plot(dates, highs, c="red")
-plt.title("Highs")
-
-plt.subplot(2, 1, 2)
-plt.plot(dates, lows, c="blue")
-plt.title("Lows")
-
-plt.suptitle("Highs and Lows of Sitka, Alaska 2018")
 
 plt.show()
